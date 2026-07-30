@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beatriz & Lucas — Chá de Panela</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --linen: #F7F4EE;
+    --linen-deep: #EFEAE0;
+    --ink: #2B2B26;
+    --ink-soft: #5B584F;
+    --sage: #8A9A82;
+    --sage-deep: #6C7C66;
+    --gold: #C6A874;
+    --line: #DAD4C6;
+    --white: #FFFFFF;
+    --radius: 2px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--linen);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+  }
+
+  .eyebrow{
+    font-size:0.72rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--sage-deep);
+    font-weight:500;
+  }
+
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  img,svg{display:block;}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible{
+    outline:2px solid var(--sage-deep);
+    outline-offset:3px;
+  }
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ============ NAV ============ */
+  header.nav{
+    position:sticky;
+    top:0;
+    z-index:40;
+    background:rgba(247,244,238,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1120px;
+    margin:0 auto;
+    padding:18px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .nav-mark{
+    font-family:'Fraunces', serif;
+    font-size:1.05rem;
+    letter-spacing:0.02em;
+  }
+  .nav-links{
+    display:flex;
+    gap:36px;
+    font-size:0.85rem;
+    color:var(--ink-soft);
+  }
+  .nav-links a{transition:color .2s;}
+  .nav-links a:hover{color:var(--ink);}
+
+  /* ============ HERO ============ */
+  .hero{
+    min-height:92vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    position:relative;
+    padding:120px 24px 80px;
+    overflow:hidden;
+  }
+
+  .rings{
+    position:relative;
+    width:180px;
+    height:110px;
+    margin-bottom:36px;
+  }
+  .rings svg{width:100%;height:100%;}
+  .ring-anim circle{
+    animation:ringDraw 1.6s ease forwards;
+    stroke-dasharray:220;
+    stroke-dashoffset:220;
+  }
+  .ring-anim circle:nth-child(2){animation-delay:.25s;}
+  @keyframes ringDraw{ to{stroke-dashoffset:0;} }
+
+  .hero .eyebrow{margin-bottom:22px;}
+
+  .hero h1{
+    font-size:clamp(2.6rem, 7vw, 5.2rem);
+    line-height:1;
+    font-weight:500;
+  }
+  .hero .amp{
+    color:var(--sage-deep);
+    font-style:italic;
+    font-weight:300;
+    padding:0 .18em;
+  }
+
+  .hero .date{
+    margin-top:26px;
+    font-size:1rem;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .hero .date b{color:var(--ink);font-weight:600;}
+
+  .hero-cta{
+    margin-top:44px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:15px 34px;
+    background:var(--ink);
+    color:var(--linen);
+    font-size:0.85rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    border-radius:var(--radius);
+    transition:background .25s, transform .25s;
+  }
+  .hero-cta:hover{background:var(--sage-deep); transform:translateY(-2px);}
+  .hero-cta svg{width:14px;height:14px;transition:transform .25s;}
+  .hero-cta:hover svg{transform:translateY(3px);}
+
+  .scroll-cue{
+    position:absolute;
+    bottom:36px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:0.68rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+  }
+  .scroll-cue .stem{
+    width:1px;
+    height:34px;
+    background:var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .scroll-cue .stem::after{
+    content:'';
+    position:absolute;
+    top:-100%;
+    left:0;width:100%;height:100%;
+    background:var(--sage-deep);
+    animation:stemDrip 2.2s ease-in-out infinite;
+  }
+  @keyframes stemDrip{
+    0%{top:-100%;} 60%{top:100%;} 100%{top:100%;}
+  }
+
+  /* ============ DIVIDER (signature) ============ */
+  .divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    padding:64px 0;
+  }
+  .divider .line{height:1px;width:120px;background:var(--line);}
+  .divider svg{width:26px;height:16px;opacity:0.8;}
+
+  /* ============ INTRO ============ */
+  .intro{
+    max-width:640px;
+    margin:0 auto;
+    text-align:center;
+    padding:0 24px 20px;
+  }
+  .intro h2{
+    font-size:clamp(1.6rem,3.4vw,2.1rem);
+    margin-bottom:20px;
+  }
+  .intro p{
+    color:var(--ink-soft);
+    font-size:1.02rem;
+    font-weight:300;
+  }
+
+  /* ============ GIFTS ============ */
+  .gifts-section{padding:20px 0 100px;}
+
+  .gifts-head{
+    display:flex;
+    flex-wrap:wrap;
+    gap:24px;
+    align-items:flex-end;
+    justify-content:space-between;
+    margin-bottom:44px;
+  }
+  .gifts-head h2{font-size:clamp(1.8rem,3.6vw,2.4rem);}
+
+  .filters{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .filter-btn{
+    padding:9px 18px;
+    font-size:0.78rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    border:1px solid var(--line);
+    border-radius:999px;
+    color:var(--ink-soft);
+    background:var(--white);
+    transition:all .2s;
+  }
+  .filter-btn:hover{border-color:var(--sage-deep); color:var(--ink);}
+  .filter-btn.active{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:var(--linen);
+  }
+
+  .gift-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:28px;
+  }
+
+  .gift-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .6s ease, transform .6s ease, border-color .25s;
+  }
+  .gift-card.visible{opacity:1; transform:translateY(0);}
+  .gift-card:hover{border-color:var(--sage-deep);}
+
+  .gift-media{
+    aspect-ratio:4/3;
+    background:var(--linen-deep);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+  .gift-media svg{width:46px;height:46px;stroke:var(--sage-deep);opacity:0.75;}
+
+  .gift-tag{
+    position:absolute;
+    top:12px;
+    left:12px;
+    font-size:0.66rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    background:var(--white);
+    padding:4px 10px;
+    border-radius:999px;
+    color:var(--ink-soft);
+  }
+
+  .gift-body{
+    padding:22px 22px 24px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    flex:1;
+  }
+  .gift-name{font-family:'Fraunces',serif; font-size:1.12rem; font-weight:500;}
+  .gift-price{font-size:0.88rem; color:var(--ink-soft);}
+
+  .gift-progress{
+    height:4px;
+    background:var(--linen-deep);
+    border-radius:99px;
+    overflow:hidden;
+    margin-top:2px;
+  }
+  .gift-progress > div{
+    height:100%;
+    background:var(--sage);
+    border-radius:99px;
+  }
+  .gift-progress-label{
+    font-size:0.72rem;
+    color:var(--ink-soft);
+  }
+
+  .gift-cta{
+    margin-top:auto;
+    padding-top:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .gift-btn{
+    font-size:0.78rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:11px 20px;
+    border:1px solid var(--ink);
+    border-radius:var(--radius);
+    transition:all .2s;
+    width:100%;
+    text-align:center;
+  }
+  .gift-btn:hover{background:var(--ink); color:var(--linen);}
+  .gift-btn.given{
+    border-color:var(--line);
+    color:var(--ink-soft);
+    pointer-events:none;
+  }
+
+  /* ============ FOOTER / RSVP ============ */
+  .closing{
+    background:var(--ink);
+    color:var(--linen);
+    padding:90px 24px 60px;
+    text-align:center;
+  }
+  .closing .rings-small{width:64px;margin:0 auto 28px;}
+  .closing .rings-small svg{width:100%;stroke:var(--gold);}
+  .closing h2{
+    font-size:clamp(1.6rem,3.4vw,2.2rem);
+    margin-bottom:16px;
+  }
+  .closing p{
+    color:#C7C4B8;
+    font-weight:300;
+    max-width:460px;
+    margin:0 auto;
+  }
+  .closing .sign{
+    margin-top:40px;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:1.3rem;
+    color:var(--gold);
+  }
+  footer.foot{
+    text-align:center;
+    padding:26px;
+    font-size:0.72rem;
+    letter-spacing:0.05em;
+    color:#8C897C;
+    background:var(--ink);
+    border-top:1px solid #40403A;
+  }
+
+  /* ============ MODAL ============ */
+  .modal-overlay{
+    position:fixed;inset:0;
+    background:rgba(43,43,38,0.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:24px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--linen);
+    max-width:420px;
+    width:100%;
+    padding:36px 32px;
+    border-radius:var(--radius);
+    position:relative;
+  }
+  .modal-close{
+    position:absolute;
+    top:16px;right:16px;
+    width:30px;height:30px;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:50%;
+    transition:background .2s;
+  }
+  .modal-close:hover{background:var(--linen-deep);}
+  .modal h3{font-size:1.3rem;margin-bottom:6px;}
+  .modal .modal-price{color:var(--ink-soft); font-size:0.92rem; margin-bottom:22px;}
+  .modal-field{margin-bottom:16px;}
+  .modal-field label{
+    display:block;
+    font-size:0.72rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:7px;
+  }
+  .modal-field input{
+    width:100%;
+    padding:11px 13px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    background:var(--white);
+    font-size:0.92rem;
+    font-family:inherit;
+  }
+  .modal-submit{
+    width:100%;
+    margin-top:6px;
+    padding:13px;
+    background:var(--ink);
+    color:var(--linen);
+    border-radius:var(--radius);
+    font-size:0.82rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    transition:background .2s;
+  }
+  .modal-submit:hover{background:var(--sage-deep);}
+  .modal-note{
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    margin-top:14px;
+    text-align:center;
+  }
+
+  /* ============ REVEAL ============ */
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.visible{opacity:1; transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:860px){
+    .gift-grid{grid-template-columns:repeat(2,1fr);}
+    .nav-links{gap:20px; font-size:0.78rem;}
+  }
+  @media (max-width:560px){
+    .gift-grid{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+    .hero{padding-top:100px;}
+    .gifts-head{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="nav-mark">B &amp; R</div>
+    <nav class="nav-links">
+      <a href="#historia">Nossa história</a>
+      <a href="#presentes">Lista de presentes</a>
+      <a href="#detalhes">Detalhes</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="rings" aria-hidden="true">
+    <svg viewBox="0 0 180 110" class="ring-anim" fill="none" stroke="#C6A874" stroke-width="1.4">
+      <circle cx="70" cy="60" r="38"/>
+      <circle cx="112" cy="60" r="38"/>
+    </svg>
+  </div>
+  <p class="eyebrow">Chá de Panela </p>
+  <h1>Beatriz<span class="amp">&amp;</span>Lucas</h1>
+  <p class="date">Sábado, <b>14 de novembro de 2026</b> — Fortaleza, CE</p>
+  <a href="#presentes" class="hero-cta">
+    Ver lista de presentes
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16m0 0l-6-6m6 6l6-6"/></svg>
+  </a>
+  <div class="scroll-cue"><span>Deslize</span><div class="stem"></div></div>
+</section>
+
+<div class="divider reveal" aria-hidden="true">
+  <div class="line"></div>
+  <svg viewBox="0 0 26 16" fill="none" stroke="#8A9A82" stroke-width="1.2"><circle cx="9" cy="8" r="7"/><circle cx="17" cy="8" r="7"/></svg>
+  <div class="line"></div>
+</div>
+
+<section id="historia" class="intro reveal">
+  <h2>Um novo capítulo</h2>
+  <p>Depois de nove anos de história, decidimos dar o próximo passo. Se quiserem nos presentear, preparamos esta lista com carinho — cada contribuição, grande ou pequena, nos ajuda a montar a nossa primeira casa juntos.</p>
+</section>
+
+<section id="presentes" class="gifts-section">
+  <div class="wrap">
+    <div class="gifts-head reveal">
+      <h2>Lista de presentes</h2>
+      <div class="filters" id="filters">
+        <button class="filter-btn active" data-filter="todos">Todos</button>
+        <button class="filter-btn" data-filter="cozinha">Cozinha</button>
+        <button class="filter-btn" data-filter="casa">Casa</button>
+        <button class="filter-btn" data-filter="lua-de-mel">Lua de mel</button>
+      </div>
+    </div>
+
+    <div class="gift-grid" id="giftGrid"></div>
+  </div>
+</section>
+
+<section id="detalhes" class="closing reveal">
+  <div class="rings-small" aria-hidden="true">
+    <svg viewBox="0 0 180 110" fill="none" stroke-width="1.4"><circle cx="70" cy="60" r="38"/><circle cx="112" cy="60" r="38"/></svg>
+  </div>
+  <h2>Obrigado por fazer parte disso</h2>
+  <p>A sua presença já é o maior presente. Qualquer dúvida sobre a lista ou a cerimônia, é só chamar a gente.</p>
+  <p class="sign">Com carinho, Beatriz &amp; Lucas</p>
+</section>
+
+<footer class="foot">FEITO COM CARINHO PARA O GRANDE DIA · 2026</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Fechar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <h3 id="modalTitle">Presente</h3>
+    <p class="modal-price" id="modalPrice"></p>
+    <div class="modal-field">
+      <label for="modalName">Seu nome</label>
+      <input type="text" id="modalName" placeholder="Como quer aparecer para nós">
+    </div>
+    <div class="modal-field">
+      <label for="modalMsg">Mensagem (opcional)</label>
+      <input type="text" id="modalMsg" placeholder="Deixe um recado para o casal">
+    </div>
+    <button class="modal-submit" id="modalSubmit">Confirmar presente via Pix</button>
+    <p class="modal-note">Você receberá a chave Pix e os dados por e-mail após a confirmação.</p>
+  </div>
+</div>
+
+<script>
+  const icons = {
+    cozinha: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M4 3v9a5 5 0 0010 0V3M4 7h10M9 12v9"/><path d="M17 3v18M20 3c0 3-3 3-3 6s3 3 3 9"/></svg>',
+    casa: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>',
+    'lua-de-mel': '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M20 14a8 8 0 11-9-9 6.5 6.5 0 009 9z"/></svg>'
+  };
+
+  const gifts = [
+    { name:'Jogo de panelas antiaderentes', cat:'cozinha', price:'R$ 480', pct:65, tag:'Cozinha' },
+    { name:'Cafeteira italiana em aço', cat:'cozinha', price:'R$ 210', pct:100, tag:'Cozinha' },
+    { name:'Conjunto de taças de cristal', cat:'cozinha', price:'R$ 320', pct:20, tag:'Cozinha' },
+    { name:'Jogo de lençóis 400 fios', cat:'casa', price:'R$ 390', pct:40, tag:'Casa' },
+    { name:'Air fryer', cat:'cozinha', price:'R$ 520', pct:0, tag:'Cozinha' },
+    { name:'Aspirador de pó vertical', cat:'casa', price:'R$ 690', pct:15, tag:'Casa' },
+    { name:'Cota para hospedagem em Paraty', cat:'lua-de-mel', price:'R$ 150 / cota', pct:52, tag:'Lua de mel' },
+    { name:'Jantar romântico em Búzios', cat:'lua-de-mel', price:'R$ 90 / cota', pct:80, tag:'Lua de mel' },
+    { name:'Passeio de escuna na lua de mel', cat:'lua-de-mel', price:'R$ 70 / cota', pct:10, tag:'Lua de mel' },
+    { name:'Espelho de piso emoldurado', cat:'casa', price:'R$ 340', pct:0, tag:'Casa' },
+    { name:'Kit de facas profissionais', cat:'cozinha', price:'R$ 260', pct:33, tag:'Cozinha' },
+    { name:'Luminária de mesa em cerâmica', cat:'casa', price:'R$ 180', pct:60, tag:'Casa' }
+  ];
+
+  const grid = document.getElementById('giftGrid');
+
+  function render(list){
+    grid.innerHTML = '';
+    list.forEach((g, i) => {
+      const card = document.createElement('div');
+      card.className = 'gift-card';
+      card.style.transitionDelay = (i % 6) * 0.05 + 's';
+      const given = g.pct >= 100;
+      card.innerHTML = `
+        <div class="gift-media">
+          <span class="gift-tag">${g.tag}</span>
+          ${icons[g.cat]}
+        </div>
+        <div class="gift-body">
+          <div class="gift-name">${g.name}</div>
+          <div class="gift-price">${g.price}</div>
+          <div>
+            <div class="gift-progress"><div style="width:${g.pct}%"></div></div>
+            <div class="gift-progress-label">${given ? 'Presente completo' : g.pct + '% já presenteado'}</div>
+          </div>
+          <div class="gift-cta">
+            <button class="gift-btn ${given ? 'given' : ''}" ${given ? 'disabled' : ''} data-name="${g.name}" data-price="${g.price}">
+              ${given ? 'Já presenteado' : 'Presentear'}
+            </button>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+    observeCards();
+    attachGiftButtons();
+  }
+
+  render(gifts);
+
+  document.getElementById('filters').addEventListener('click', (e) => {
+    const btn = e.target.closest('.filter-btn');
+    if(!btn) return;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    render(f === 'todos' ? gifts : gifts.filter(g => g.cat === f));
+  });
+
+  function observeCards(){
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.gift-card').forEach(c => obs.observe(c));
+  }
+
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  const overlay = document.getElementById('modalOverlay');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalPrice = document.getElementById('modalPrice');
+
+  function attachGiftButtons(){
+    document.querySelectorAll('.gift-btn:not(.given)').forEach(btn => {
+      btn.addEventListener('click', () => {
+        modalTitle.textContent = btn.dataset.name;
+        modalPrice.textContent = btn.dataset.price;
+        overlay.classList.add('open');
+      });
+    });
+  }
+
+  document.getElementById('modalClose').addEventListener('click', () => overlay.classList.remove('open'));
+  overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('open'); });
+  document.getElementById('modalSubmit').addEventListener('click', () => {
+    overlay.classList.remove('open');
+    document.getElementById('modalName').value = '';
+    document.getElementById('modalMsg').value = '';
+  });
+</script>
+
+</body>
+</html>
