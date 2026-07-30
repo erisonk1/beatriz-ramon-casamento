@@ -13,9 +13,9 @@
     --linen-deep: #EFEAE0;
     --ink: #2B2B26;
     --ink-soft: #5B584F;
-    --sage: #8A9A82;
+    --sage: #55ff00;
     --sage-deep: #6C7C66;
-    --gold: #C6A874;
+    --gold: #fa9e00;
     --line: #DAD4C6;
     --white: #FFFFFF;
     --radius: 2px;
@@ -52,7 +52,6 @@
   button{font-family:inherit;cursor:pointer;border:none;background:none;}
   img,svg{display:block;}
 
-  /* focus visibility */
   a:focus-visible, button:focus-visible, input:focus-visible{
     outline:2px solid var(--sage-deep);
     outline-offset:3px;
@@ -64,7 +63,6 @@
     padding:0 32px;
   }
 
-  /* ============ NAV ============ */
   header.nav{
     position:sticky;
     top:0;
@@ -95,17 +93,17 @@
   .nav-links a{transition:color .2s;}
   .nav-links a:hover{color:var(--ink);}
 
-  /* ============ HERO ============ */
   .hero{
     min-height:92vh;
     display:flex;
     flex-direction:column;
     align-items:center;
-    justify-content:center;
+    justify-content:space-between;
     text-align:center;
     position:relative;
-    padding:120px 24px 80px;
+    padding:120px 24px 0px;
     overflow:hidden;
+    gap:30px;
   }
 
   .rings{
@@ -164,10 +162,6 @@
   .hero-cta:hover svg{transform:translateY(3px);}
 
   .scroll-cue{
-    position:absolute;
-    bottom:36px;
-    left:50%;
-    transform:translateX(-50%);
     font-size:0.68rem;
     letter-spacing:0.2em;
     text-transform:uppercase;
@@ -196,7 +190,6 @@
     0%{top:-100%;} 60%{top:100%;} 100%{top:100%;}
   }
 
-  /* ============ DIVIDER (signature) ============ */
   .divider{
     display:flex;
     align-items:center;
@@ -207,7 +200,6 @@
   .divider .line{height:1px;width:120px;background:var(--line);}
   .divider svg{width:26px;height:16px;opacity:0.8;}
 
-  /* ============ INTRO ============ */
   .intro{
     max-width:640px;
     margin:0 auto;
@@ -224,7 +216,6 @@
     font-weight:300;
   }
 
-  /* ============ GIFTS ============ */
   .gifts-section{padding:20px 0 100px;}
 
   .gifts-head{
@@ -303,6 +294,13 @@
     color:var(--ink-soft);
   }
 
+  .gift-tag.cota{
+    left:auto;
+    right:12px;
+    background:var(--sage-deep);
+    color:var(--linen);
+  }
+
   .gift-body{
     padding:22px 22px 24px;
     display:flex;
@@ -312,6 +310,7 @@
   }
   .gift-name{font-family:'Fraunces',serif; font-size:1.12rem; font-weight:500;}
   .gift-price{font-size:0.88rem; color:var(--ink-soft);}
+  .gift-price .total-note{display:block; font-size:0.78rem; margin-top:2px; color:var(--ink-soft); opacity:0.85;}
 
   .gift-progress{
     height:4px;
@@ -355,7 +354,6 @@
     pointer-events:none;
   }
 
-  /* ============ FOOTER / RSVP ============ */
   .closing{
     background:var(--ink);
     color:var(--linen);
@@ -391,7 +389,6 @@
     border-top:1px solid #40403A;
   }
 
-  /* ============ MODAL ============ */
   .modal-overlay{
     position:fixed;inset:0;
     background:rgba(43,43,38,0.55);
@@ -459,7 +456,6 @@
     text-align:center;
   }
 
-  /* ============ REVEAL ============ */
   .reveal{opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease;}
   .reveal.visible{opacity:1; transform:translateY(0);}
 
@@ -467,7 +463,6 @@
     *{animation:none !important; transition:none !important;}
   }
 
-  /* ============ RESPONSIVE ============ */
   @media (max-width:860px){
     .gift-grid{grid-template-columns:repeat(2,1fr);}
     .nav-links{gap:20px; font-size:0.78rem;}
@@ -518,7 +513,7 @@
 
 <section id="historia" class="intro reveal">
   <h2>Um novo capítulo</h2>
-  <p>Depois de nove anos de história, decidimos dar o próximo passo. Se quiserem nos presentear, preparamos esta lista com carinho — cada contribuição, grande ou pequena, nos ajuda a montar a nossa primeira casa juntos.</p>
+  <p>Decidimos dar o próximo passo. Se quiserem nos presentear, preparamos esta lista com carinho — cada contribuição, grande ou pequena, nos ajuda a montar a nossa primeira casa juntos.  </p>
 </section>
 
 <section id="presentes" class="gifts-section">
@@ -527,9 +522,9 @@
       <h2>Lista de presentes</h2>
       <div class="filters" id="filters">
         <button class="filter-btn active" data-filter="todos">Todos</button>
-        <button class="filter-btn" data-filter="cozinha">Cozinha</button>
-        <button class="filter-btn" data-filter="casa">Casa</button>
-        <button class="filter-btn" data-filter="lua-de-mel">Lua de mel</button>
+        <button class="filter-btn" data-filter="eletronicos">Eletrônicos</button>
+        <button class="filter-btn" data-filter="kits-cozinha">Kits de Cozinha</button>
+        <button class="filter-btn" data-filter="cama-mesa-banho">Cama, Mesa e Banho</button>
       </div>
     </div>
 
@@ -555,39 +550,94 @@
     </button>
     <h3 id="modalTitle">Presente</h3>
     <p class="modal-price" id="modalPrice"></p>
-    <div class="modal-field">
-      <label for="modalName">Seu nome</label>
-      <input type="text" id="modalName" placeholder="Como quer aparecer para nós">
+ 
+    <div class="modal-qr">
+      <img id="modalQr" src="" alt="QR Code Pix">
     </div>
+ 
     <div class="modal-field">
-      <label for="modalMsg">Mensagem (opcional)</label>
-      <input type="text" id="modalMsg" placeholder="Deixe um recado para o casal">
+      <label>Chave Pix</label>
+      <div class="pix-key-box">
+        <span id="pixKeyText">beatriz.lucas.casamento@pix.com</span>
+        <button class="pix-copy-btn" id="pixCopyBtn">Copiar</button>
+      </div>
     </div>
-    <button class="modal-submit" id="modalSubmit">Confirmar presente via Pix</button>
-    <p class="modal-note">Você receberá a chave Pix e os dados por e-mail após a confirmação.</p>
+ 
+    <p class="modal-note">Escaneie o QR Code ou copie a chave Pix para presentear. Obrigado, de coração!</p>
   </div>
 </div>
-
+ 
 <script>
   const icons = {
-    cozinha: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M4 3v9a5 5 0 0010 0V3M4 7h10M9 12v9"/><path d="M17 3v18M20 3c0 3-3 3-3 6s3 3 3 9"/></svg>',
-    casa: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>',
-    'lua-de-mel': '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M20 14a8 8 0 11-9-9 6.5 6.5 0 009 9z"/></svg>'
+    'eletronicos': '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>',
+    'kits-cozinha': '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M4 3v9a5 5 0 0010 0V3M4 7h10M9 12v9"/><path d="M17 3v18M20 3c0 3-3 3-3 6s3 3 3 9"/></svg>',
+    'cama-mesa-banho': '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M2 18v-6a2 2 0 012-2h16a2 2 0 012 2v6M2 18v3M22 18v3M2 12V8a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>'
   };
 
+  const tags = {
+    'eletronicos': 'Eletrônicos',
+    'kits-cozinha': 'Kits de Cozinha',
+    'cama-mesa-banho': 'Cama, Mesa e Banho'
+  };
+
+  // type "cota": item vendido em cotas de valor fixo, várias pessoas podem contribuir
+  // type "unico": item com preço único, presenteado por uma pessoa só
   const gifts = [
-    { name:'Jogo de panelas antiaderentes', cat:'cozinha', price:'R$ 480', pct:65, tag:'Cozinha' },
-    { name:'Cafeteira italiana em aço', cat:'cozinha', price:'R$ 210', pct:100, tag:'Cozinha' },
-    { name:'Conjunto de taças de cristal', cat:'cozinha', price:'R$ 320', pct:20, tag:'Cozinha' },
-    { name:'Jogo de lençóis 400 fios', cat:'casa', price:'R$ 390', pct:40, tag:'Casa' },
-    { name:'Air fryer', cat:'cozinha', price:'R$ 520', pct:0, tag:'Cozinha' },
-    { name:'Aspirador de pó vertical', cat:'casa', price:'R$ 690', pct:15, tag:'Casa' },
-    { name:'Cota para hospedagem em Paraty', cat:'lua-de-mel', price:'R$ 150 / cota', pct:52, tag:'Lua de mel' },
-    { name:'Jantar romântico em Búzios', cat:'lua-de-mel', price:'R$ 90 / cota', pct:80, tag:'Lua de mel' },
-    { name:'Passeio de escuna na lua de mel', cat:'lua-de-mel', price:'R$ 70 / cota', pct:10, tag:'Lua de mel' },
-    { name:'Espelho de piso emoldurado', cat:'casa', price:'R$ 340', pct:0, tag:'Casa' },
-    { name:'Kit de facas profissionais', cat:'cozinha', price:'R$ 260', pct:33, tag:'Cozinha' },
-    { name:'Luminária de mesa em cerâmica', cat:'casa', price:'R$ 180', pct:60, tag:'Casa' }
+    // ===== Eletrônicos e Eletrodomésticos =====
+    { name:'Lava e Seca 11kg', cat:'eletronicos', price:'R$ 4.000'},
+    { name:'Geladeira Duplex Frost Free (380L a 400L)', cat:'eletronicos', price:'R$ 3.000'},
+    { name:'Smart TV 4K 50 Polegadas', cat:'eletronicos', price:'R$ 2.400', given:0 },
+    { name:'Cervejeira Residencial Frost Free (82L a 100L)', cat:'eletronicos', price:'R$ 2.000', given:0 },
+    { name:'Robô Aspirador com Mapeamento', cat:'eletronicos', price:'R$ 1.600', given:0 },
+    { name:'Forno Elétrico de Bancada (44L a 60L)', cat:'eletronicos', price:'R$ 750', given:0 },
+    { name:'Micro-ondas 30L a 34L em Inox', cat:'eletronicos', price:'R$ 600', given:0 },
+    { name:'Purificador de Água Refrigerado', cat:'eletronicos', price:'R$ 550', given:0 },
+    { name:'Máquina de Fazer Pão Automática (Panificadora)', cat:'eletronicos', price:'R$ 550', given:0 },
+    { name:'Smart Speaker (Amazon Alexa - Echo Dot 5ª Geração)', cat:'eletronicos', type:'unico', price:'R$ 480', given:0 },
+    { name:'Batedeira Planetária', cat:'eletronicos', type:'unico', price:'R$ 450', given:0 },
+    { name:'Air Fryer (Fritadeira Sem Óleo 4L a 5L)', cat:'eletronicos', type:'unico', price:'R$ 420', given:0 },
+    { name:'Panela de Pressão Elétrica (4L a 5L)', cat:'eletronicos', type:'unico', price:'R$ 380', given:0 },
+    { name:'Multicooking / Panela Multifuncional Elétrica', cat:'eletronicos', type:'unico', price:'R$ 380', given:0 },
+    { name:'Caixa de Som Bluetooth Portátil (Resistente à Água)', cat:'eletronicos', type:'unico', price:'R$ 350', given:0 },
+    { name:'Processador de Alimentos de Bancada', cat:'eletronicos', type:'unico', price:'R$ 320', given:0 },
+    { name:'Espremedor / Extrator de Frutas Profissional (Bivolt)',cat:'eletronicos', type:'unico', price:'R$ 320', given:0 },
+    { name:'Multiprocessador 4 em 1', cat:'eletronicos', type:'unico', price:'R$ 290', given:0 },
+    { name:'Panela Wok Elétrica / Grill Multiuso', cat:'eletronicos', type:'unico', price:'R$ 280', given:0 },
+    { name:'Liquidificador de Alta Potência (Copo de Vidro)', cat:'eletronicos', type:'unico', price:'R$ 280', given:0 },
+    { name:'Aspirador de Pó Vertical 2 em 1', cat:'eletronicos', type:'unico', price:'R$ 250', given:0 },
+    { name:'Cafeteira Elétrica Programável', cat:'eletronicos', type:'unico', price:'R$ 220', given:0 },
+    { name:'Ventilador de Mesa/Coluna (Oscilante)', cat:'eletronicos', type:'unico', price:'R$ 220', given:0 },
+    { name:'Mixer de Mão 3 em 1 com Acessórios', cat:'eletronicos', type:'unico', price:'R$ 220', given:0 },
+    { name:'Sanduicheira e Grill Duplo Antiaderente', cat:'eletronicos', type:'unico', price:'R$ 200', given:0 },
+    { name:'Torradeira de Pão em Inox (2 Fatias largas)', cat:'eletronicos', type:'unico', price:'R$ 200', given:0 },
+    { name:'Umidificador de Ar Ultrassônico Digital', cat:'eletronicos', type:'unico', price:'R$ 180', given:0 },
+    { name:'Ferro de Passar a Vapor com Base Cerâmica', cat:'eletronicos', type:'unico', price:'R$ 160', given:0 },
+    { name:'Espremedor de Frutas Elétrico em Inox', cat:'eletronicos', type:'unico', price:'R$ 160', given:0 },
+    { name:'Chaleira Elétrica Inox com Indicador de Nível', cat:'eletronicos', type:'unico', price:'R$ 150', given:0 },
+
+    // ===== Kits de Utensílios para Cozinha =====
+    { name:'Kit de Panelas em Aço Inox (Jogo Completo)', cat:'kits-cozinha', price:'R$ 850', given:0 },
+    { name:'Kit de Panelas Antiaderentes (Conjunto com 5 a 7 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 380', given:0 },
+    { name:'Kit de Pratos e Aparelho de Jantar (Porcelana, 30 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 350', given:0 },
+    { name:'Kit de Talheres em Inox com Suporte/Maleta (42 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 280', given:0 },
+    { name:'Kit de Facas Profissionais com Cepo de Madeira', cat:'kits-cozinha', type:'unico', price:'R$ 250', given:0 },
+    { name:'Kit de Taças para Vinho e Espumante (Jogo grande com 12 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 250', given:0 },
+    { name:'Kit de Potes Herméticos para Mantimentos (Vidro resistente, kit com 5)', cat:'kits-cozinha', type:'unico', price:'R$ 220', given:0 },
+    { name:'Kit de Copos e Jarra de Cristal/Vidro para Água e Suco (13 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 200', given:0 },
+    { name:'Kit de Assadeiras e Refratários de Vidro Temperado (Jogo com 4 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 200', given:0 },
+    { name:'Kit de Utensílios de Silicone Premium com Suporte em Inox', cat:'kits-cozinha', type:'unico', price:'R$ 180', given:0 },
+
+    // ===== Cama, Mesa e Banho =====
+    { name:'Edredom Casal ou Queen Matelassê de Toque Macio', cat:'cama-mesa-banho', type:'unico', price:'R$ 350', given:0 },
+    { name:'Kit de Toalhas de Banho (Conjunto robusto com 5 peças)', cat:'cama-mesa-banho', type:'unico', price:'R$ 280', given:0 },
+    { name:'Jogo de Lençol Casal/Queen 100% Algodão', cat:'cama-mesa-banho', type:'unico', price:'R$ 250', given:0 },
+    { name:'Manta Decorativa de Tricô ou Chenille para Sofá', cat:'cama-mesa-banho', type:'unico', price:'R$ 220', given:0 },
+    { name:'Protetor de Colchão Impermeável Matelassê (Casal/Queen)', cat:'cama-mesa-banho', type:'unico', price:'R$ 200', given:0 },
+    { name:'Kit de Travesseiros Macios (Par com tecnologia antiácaro)', cat:'cama-mesa-banho', type:'unico', price:'R$ 200', given:0 },
+    { name:'Toalha de Mesa Requintada para 6 Lugares', cat:'cama-mesa-banho', type:'unico', price:'R$ 180', given:0 },
+    { name:'Jogo Americano de Mesa (Kit completo com 6 lugares e guardanapos)', cat:'cama-mesa-banho', type:'unico', price:'R$ 160', given:0 },
+    { name:'Kit de Tapetes Antiderrapantes para Banheiro (Jogo felpudo de 3 peças)', cat:'cama-mesa-banho', type:'unico', price:'R$ 160', given:0 },
+    { name:'Kit de Cortina para Box em Tecido Impermeável com Varão', cat:'cama-mesa-banho', type:'unico', price:'R$ 150', given:0 }
   ];
 
   const grid = document.getElementById('giftGrid');
@@ -595,25 +645,41 @@
   function render(list){
     grid.innerHTML = '';
     list.forEach((g, i) => {
+      const isCota = g.type === 'cota';
+      const totalUnits = isCota ? g.totalCotas : 1;
+      const given = g.given || 0;
+      const complete = given >= totalUnits;
+      const pct = Math.min(100, Math.round((given / totalUnits) * 100));
+
+      const priceLine = isCota
+        ? `Cota de R$ ${g.cotaPrice}<span class="total-note">Valor total ≈ ${g.totalValue}${totalUnits > 1 ? ' · ' + totalUnits + ' cotas' : ''}</span>`
+        : g.price;
+
+      const progressLabel = isCota
+        ? (complete ? 'Todas as cotas presenteadas' : `${given} de ${totalUnits} cota${totalUnits > 1 ? 's' : ''} presenteada${given === 1 ? '' : 's'}`)
+        : (complete ? 'Presente completo' : 'Ainda não presenteado');
+
+      const btnLabel = complete ? 'Já presenteado' : (isCota ? 'Presentear uma cota' : 'Presentear');
+      const modalPriceText = isCota ? `Cota de R$ ${g.cotaPrice} · Valor total ≈ ${g.totalValue}` : g.price;
+
       const card = document.createElement('div');
       card.className = 'gift-card';
       card.style.transitionDelay = (i % 6) * 0.05 + 's';
-      const given = g.pct >= 100;
       card.innerHTML = `
         <div class="gift-media">
-          <span class="gift-tag">${g.tag}</span>
+          <span class="gift-tag${isCota ? ' cota' : ''}">${isCota ? 'Em cotas' : tags[g.cat]}</span>
           ${icons[g.cat]}
         </div>
         <div class="gift-body">
           <div class="gift-name">${g.name}</div>
-          <div class="gift-price">${g.price}</div>
+          <div class="gift-price">${priceLine}</div>
           <div>
-            <div class="gift-progress"><div style="width:${g.pct}%"></div></div>
-            <div class="gift-progress-label">${given ? 'Presente completo' : g.pct + '% já presenteado'}</div>
+            <div class="gift-progress"><div style="width:${pct}%"></div></div>
+            <div class="gift-progress-label">${progressLabel}</div>
           </div>
           <div class="gift-cta">
-            <button class="gift-btn ${given ? 'given' : ''}" ${given ? 'disabled' : ''} data-name="${g.name}" data-price="${g.price}">
-              ${given ? 'Já presenteado' : 'Presentear'}
+            <button class="gift-btn ${complete ? 'given' : ''}" ${complete ? 'disabled' : ''} data-name="${g.name}" data-price="${modalPriceText}">
+              ${btnLabel}
             </button>
           </div>
         </div>`;
