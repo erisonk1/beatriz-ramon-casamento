@@ -13,9 +13,9 @@
     --linen-deep: #EFEAE0;
     --ink: #2B2B26;
     --ink-soft: #5B584F;
-    --sage: #55ff00;
+    --sage: #8A9A82;
     --sage-deep: #6C7C66;
-    --gold: #fa9e00;
+    --gold: #C6A874;
     --line: #DAD4C6;
     --white: #FFFFFF;
     --radius: 2px;
@@ -294,13 +294,6 @@
     color:var(--ink-soft);
   }
 
-  .gift-tag.cota{
-    left:auto;
-    right:12px;
-    background:var(--sage-deep);
-    color:var(--linen);
-  }
-
   .gift-body{
     padding:22px 22px 24px;
     display:flex;
@@ -417,8 +410,19 @@
   }
   .modal-close:hover{background:var(--linen-deep);}
   .modal h3{font-size:1.3rem;margin-bottom:6px;}
-  .modal .modal-price{color:var(--ink-soft); font-size:0.92rem; margin-bottom:22px;}
-  .modal-field{margin-bottom:16px;}
+  .modal .modal-price{color:var(--ink-soft); font-size:0.92rem; margin-bottom:24px;}
+
+  .modal-qr{
+    display:flex;
+    justify-content:center;
+    padding:20px;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    margin-bottom:18px;
+  }
+  .modal-qr img{width:180px;height:180px;}
+
   .modal-field label{
     display:block;
     font-size:0.72rem;
@@ -427,32 +431,41 @@
     color:var(--ink-soft);
     margin-bottom:7px;
   }
-  .modal-field input{
-    width:100%;
+  .pix-key-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
     padding:11px 13px;
     border:1px solid var(--line);
     border-radius:var(--radius);
     background:var(--white);
+    margin-bottom:18px;
+  }
+  .pix-key-box span{
+    flex:1;
     font-size:0.92rem;
     font-family:inherit;
+    word-break:break-all;
+    user-select:all;
+    -webkit-user-select:all;
   }
-  .modal-submit{
-    width:100%;
-    margin-top:6px;
-    padding:13px;
+  .pix-copy-btn{
+    flex-shrink:0;
+    padding:8px 14px;
     background:var(--ink);
     color:var(--linen);
     border-radius:var(--radius);
-    font-size:0.82rem;
-    letter-spacing:0.05em;
+    font-size:0.72rem;
+    letter-spacing:0.04em;
     text-transform:uppercase;
     transition:background .2s;
   }
-  .modal-submit:hover{background:var(--sage-deep);}
+  .pix-copy-btn:hover{background:var(--sage-deep);}
+  .pix-copy-btn.copied{background:var(--sage-deep);}
   .modal-note{
     font-size:0.78rem;
     color:var(--ink-soft);
-    margin-top:14px;
+    margin-top:2px;
     text-align:center;
   }
 
@@ -513,7 +526,7 @@
 
 <section id="historia" class="intro reveal">
   <h2>Um novo capítulo</h2>
-  <p>Decidimos dar o próximo passo. Se quiserem nos presentear, preparamos esta lista com carinho — cada contribuição, grande ou pequena, nos ajuda a montar a nossa primeira casa juntos.  </p>
+  <p>Depois de nove anos de história, decidimos dar o próximo passo. Se quiserem nos presentear, preparamos esta lista com carinho — cada contribuição, grande ou pequena, nos ajuda a montar a nossa primeira casa juntos.</p>
 </section>
 
 <section id="presentes" class="gifts-section">
@@ -550,11 +563,11 @@
     </button>
     <h3 id="modalTitle">Presente</h3>
     <p class="modal-price" id="modalPrice"></p>
- 
+
     <div class="modal-qr">
-      <img id="modalQr" src="" alt="QR Code Pix">
+      <img id="modalQr" src="./qrcode.png" alt="QR Code Pix">
     </div>
- 
+
     <div class="modal-field">
       <label>Chave Pix</label>
       <div class="pix-key-box">
@@ -562,11 +575,11 @@
         <button class="pix-copy-btn" id="pixCopyBtn">Copiar</button>
       </div>
     </div>
- 
+
     <p class="modal-note">Escaneie o QR Code ou copie a chave Pix para presentear. Obrigado, de coração!</p>
   </div>
 </div>
- 
+
 <script>
   const icons = {
     'eletronicos': '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>',
@@ -580,64 +593,62 @@
     'cama-mesa-banho': 'Cama, Mesa e Banho'
   };
 
-  // type "cota": item vendido em cotas de valor fixo, várias pessoas podem contribuir
-  // type "unico": item com preço único, presenteado por uma pessoa só
   const gifts = [
     // ===== Eletrônicos e Eletrodomésticos =====
-    { name:'Lava e Seca 11kg', cat:'eletronicos', price:'R$ 4.000'},
-    { name:'Geladeira Duplex Frost Free (380L a 400L)', cat:'eletronicos', price:'R$ 3.000'},
-    { name:'Smart TV 4K 50 Polegadas', cat:'eletronicos', price:'R$ 2.400', given:0 },
-    { name:'Cervejeira Residencial Frost Free (82L a 100L)', cat:'eletronicos', price:'R$ 2.000', given:0 },
-    { name:'Robô Aspirador com Mapeamento', cat:'eletronicos', price:'R$ 1.600', given:0 },
-    { name:'Forno Elétrico de Bancada (44L a 60L)', cat:'eletronicos', price:'R$ 750', given:0 },
-    { name:'Micro-ondas 30L a 34L em Inox', cat:'eletronicos', price:'R$ 600', given:0 },
-    { name:'Purificador de Água Refrigerado', cat:'eletronicos', price:'R$ 550', given:0 },
-    { name:'Máquina de Fazer Pão Automática (Panificadora)', cat:'eletronicos', price:'R$ 550', given:0 },
-    { name:'Smart Speaker (Amazon Alexa - Echo Dot 5ª Geração)', cat:'eletronicos', type:'unico', price:'R$ 480', given:0 },
-    { name:'Batedeira Planetária', cat:'eletronicos', type:'unico', price:'R$ 450', given:0 },
-    { name:'Air Fryer (Fritadeira Sem Óleo 4L a 5L)', cat:'eletronicos', type:'unico', price:'R$ 420', given:0 },
-    { name:'Panela de Pressão Elétrica (4L a 5L)', cat:'eletronicos', type:'unico', price:'R$ 380', given:0 },
-    { name:'Multicooking / Panela Multifuncional Elétrica', cat:'eletronicos', type:'unico', price:'R$ 380', given:0 },
-    { name:'Caixa de Som Bluetooth Portátil (Resistente à Água)', cat:'eletronicos', type:'unico', price:'R$ 350', given:0 },
-    { name:'Processador de Alimentos de Bancada', cat:'eletronicos', type:'unico', price:'R$ 320', given:0 },
-    { name:'Espremedor / Extrator de Frutas Profissional (Bivolt)',cat:'eletronicos', type:'unico', price:'R$ 320', given:0 },
-    { name:'Multiprocessador 4 em 1', cat:'eletronicos', type:'unico', price:'R$ 290', given:0 },
-    { name:'Panela Wok Elétrica / Grill Multiuso', cat:'eletronicos', type:'unico', price:'R$ 280', given:0 },
-    { name:'Liquidificador de Alta Potência (Copo de Vidro)', cat:'eletronicos', type:'unico', price:'R$ 280', given:0 },
-    { name:'Aspirador de Pó Vertical 2 em 1', cat:'eletronicos', type:'unico', price:'R$ 250', given:0 },
-    { name:'Cafeteira Elétrica Programável', cat:'eletronicos', type:'unico', price:'R$ 220', given:0 },
-    { name:'Ventilador de Mesa/Coluna (Oscilante)', cat:'eletronicos', type:'unico', price:'R$ 220', given:0 },
-    { name:'Mixer de Mão 3 em 1 com Acessórios', cat:'eletronicos', type:'unico', price:'R$ 220', given:0 },
-    { name:'Sanduicheira e Grill Duplo Antiaderente', cat:'eletronicos', type:'unico', price:'R$ 200', given:0 },
-    { name:'Torradeira de Pão em Inox (2 Fatias largas)', cat:'eletronicos', type:'unico', price:'R$ 200', given:0 },
-    { name:'Umidificador de Ar Ultrassônico Digital', cat:'eletronicos', type:'unico', price:'R$ 180', given:0 },
-    { name:'Ferro de Passar a Vapor com Base Cerâmica', cat:'eletronicos', type:'unico', price:'R$ 160', given:0 },
-    { name:'Espremedor de Frutas Elétrico em Inox', cat:'eletronicos', type:'unico', price:'R$ 160', given:0 },
-    { name:'Chaleira Elétrica Inox com Indicador de Nível', cat:'eletronicos', type:'unico', price:'R$ 150', given:0 },
+    { name:'Lava e Seca 11kg', cat:'eletronicos', price:'R$ 4.000', given:false },
+    { name:'Geladeira Duplex Frost Free (380L a 400L)', cat:'eletronicos', price:'R$ 3.000', given:false },
+    { name:'Smart TV 4K 50 Polegadas', cat:'eletronicos', price:'R$ 2.400', given:false },
+    { name:'Cervejeira Residencial Frost Free (82L a 100L)', cat:'eletronicos', price:'R$ 2.000', given:false },
+    { name:'Robô Aspirador com Mapeamento', cat:'eletronicos', price:'R$ 1.600', given:false },
+    { name:'Forno Elétrico de Bancada (44L a 60L)', cat:'eletronicos', price:'R$ 750', given:false },
+    { name:'Micro-ondas 30L a 34L em Inox', cat:'eletronicos', price:'R$ 600', given:false },
+    { name:'Purificador de Água Refrigerado', cat:'eletronicos', price:'R$ 550', given:false },
+    { name:'Máquina de Fazer Pão Automática (Panificadora)', cat:'eletronicos', price:'R$ 550', given:false },
+    { name:'Smart Speaker (Amazon Alexa - Echo Dot 5ª Geração)', cat:'eletronicos', price:'R$ 480', given:false },
+    { name:'Batedeira Planetária', cat:'eletronicos', price:'R$ 450', given:false },
+    { name:'Air Fryer (Fritadeira Sem Óleo 4L a 5L)', cat:'eletronicos', price:'R$ 420', given:false },
+    { name:'Panela de Pressão Elétrica (4L a 5L)', cat:'eletronicos', price:'R$ 380', given:false },
+    { name:'Multicooking / Panela Multifuncional Elétrica', cat:'eletronicos', price:'R$ 380', given:false },
+    { name:'Caixa de Som Bluetooth Portátil (Resistente à Água)', cat:'eletronicos', price:'R$ 350', given:false },
+    { name:'Processador de Alimentos de Bancada', cat:'eletronicos', price:'R$ 320', given:false },
+    { name:'Espremedor / Extrator de Frutas Profissional (Bivolt)', cat:'eletronicos', price:'R$ 320', given:false },
+    { name:'Multiprocessador 4 em 1', cat:'eletronicos', price:'R$ 290', given:false },
+    { name:'Panela Wok Elétrica / Grill Multiuso', cat:'eletronicos', price:'R$ 280', given:false },
+    { name:'Liquidificador de Alta Potência (Copo de Vidro)', cat:'eletronicos', price:'R$ 280', given:false },
+    { name:'Aspirador de Pó Vertical 2 em 1', cat:'eletronicos', price:'R$ 250', given:false },
+    { name:'Cafeteira Elétrica Programável', cat:'eletronicos', price:'R$ 220', given:false },
+    { name:'Ventilador de Mesa/Coluna (Oscilante)', cat:'eletronicos', price:'R$ 220', given:false },
+    { name:'Mixer de Mão 3 em 1 com Acessórios', cat:'eletronicos', price:'R$ 220', given:false },
+    { name:'Sanduicheira e Grill Duplo Antiaderente', cat:'eletronicos', price:'R$ 200', given:false },
+    { name:'Torradeira de Pão em Inox (2 Fatias largas)', cat:'eletronicos', price:'R$ 200', given:false },
+    { name:'Umidificador de Ar Ultrassônico Digital', cat:'eletronicos', price:'R$ 180', given:false },
+    { name:'Ferro de Passar a Vapor com Base Cerâmica', cat:'eletronicos', price:'R$ 160', given:false },
+    { name:'Espremedor de Frutas Elétrico em Inox', cat:'eletronicos', price:'R$ 160', given:false },
+    { name:'Chaleira Elétrica Inox com Indicador de Nível', cat:'eletronicos', price:'R$ 150', given:false },
 
     // ===== Kits de Utensílios para Cozinha =====
-    { name:'Kit de Panelas em Aço Inox (Jogo Completo)', cat:'kits-cozinha', price:'R$ 850', given:0 },
-    { name:'Kit de Panelas Antiaderentes (Conjunto com 5 a 7 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 380', given:0 },
-    { name:'Kit de Pratos e Aparelho de Jantar (Porcelana, 30 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 350', given:0 },
-    { name:'Kit de Talheres em Inox com Suporte/Maleta (42 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 280', given:0 },
-    { name:'Kit de Facas Profissionais com Cepo de Madeira', cat:'kits-cozinha', type:'unico', price:'R$ 250', given:0 },
-    { name:'Kit de Taças para Vinho e Espumante (Jogo grande com 12 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 250', given:0 },
-    { name:'Kit de Potes Herméticos para Mantimentos (Vidro resistente, kit com 5)', cat:'kits-cozinha', type:'unico', price:'R$ 220', given:0 },
-    { name:'Kit de Copos e Jarra de Cristal/Vidro para Água e Suco (13 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 200', given:0 },
-    { name:'Kit de Assadeiras e Refratários de Vidro Temperado (Jogo com 4 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 200', given:0 },
-    { name:'Kit de Utensílios de Silicone Premium com Suporte em Inox', cat:'kits-cozinha', type:'unico', price:'R$ 180', given:0 },
+    { name:'Kit de Panelas em Aço Inox (Jogo Completo)', cat:'kits-cozinha', price:'R$ 850', given:false },
+    { name:'Kit de Panelas Antiaderentes (Conjunto com 5 a 7 peças)', cat:'kits-cozinha', price:'R$ 380', given:false },
+    { name:'Kit de Pratos e Aparelho de Jantar (Porcelana, 30 peças)', cat:'kits-cozinha', price:'R$ 350', given:false },
+    { name:'Kit de Talheres em Inox com Suporte/Maleta (42 peças)', cat:'kits-cozinha', price:'R$ 280', given:false },
+    { name:'Kit de Facas Profissionais com Cepo de Madeira', cat:'kits-cozinha', price:'R$ 250', given:false },
+    { name:'Kit de Taças para Vinho e Espumante (Jogo grande com 12 peças)', cat:'kits-cozinha', price:'R$ 250', given:false },
+    { name:'Kit de Potes Herméticos para Mantimentos (Vidro resistente, kit com 5)', cat:'kits-cozinha', price:'R$ 220', given:false },
+    { name:'Kit de Copos e Jarra de Cristal/Vidro para Água e Suco (13 peças)', cat:'kits-cozinha', price:'R$ 200', given:false },
+    { name:'Kit de Assadeiras e Refratários de Vidro Temperado (Jogo com 4 peças)', cat:'kits-cozinha', price:'R$ 200', given:false },
+    { name:'Kit de Utensílios de Silicone Premium com Suporte em Inox', cat:'kits-cozinha', price:'R$ 180', given:false },
 
     // ===== Cama, Mesa e Banho =====
-    { name:'Edredom Casal ou Queen Matelassê de Toque Macio', cat:'cama-mesa-banho', type:'unico', price:'R$ 350', given:0 },
-    { name:'Kit de Toalhas de Banho (Conjunto robusto com 5 peças)', cat:'cama-mesa-banho', type:'unico', price:'R$ 280', given:0 },
-    { name:'Jogo de Lençol Casal/Queen 100% Algodão', cat:'cama-mesa-banho', type:'unico', price:'R$ 250', given:0 },
-    { name:'Manta Decorativa de Tricô ou Chenille para Sofá', cat:'cama-mesa-banho', type:'unico', price:'R$ 220', given:0 },
-    { name:'Protetor de Colchão Impermeável Matelassê (Casal/Queen)', cat:'cama-mesa-banho', type:'unico', price:'R$ 200', given:0 },
-    { name:'Kit de Travesseiros Macios (Par com tecnologia antiácaro)', cat:'cama-mesa-banho', type:'unico', price:'R$ 200', given:0 },
-    { name:'Toalha de Mesa Requintada para 6 Lugares', cat:'cama-mesa-banho', type:'unico', price:'R$ 180', given:0 },
-    { name:'Jogo Americano de Mesa (Kit completo com 6 lugares e guardanapos)', cat:'cama-mesa-banho', type:'unico', price:'R$ 160', given:0 },
-    { name:'Kit de Tapetes Antiderrapantes para Banheiro (Jogo felpudo de 3 peças)', cat:'cama-mesa-banho', type:'unico', price:'R$ 160', given:0 },
-    { name:'Kit de Cortina para Box em Tecido Impermeável com Varão', cat:'cama-mesa-banho', type:'unico', price:'R$ 150', given:0 }
+    { name:'Edredom Casal ou Queen Matelassê de Toque Macio', cat:'cama-mesa-banho', price:'R$ 350', given:false },
+    { name:'Kit de Toalhas de Banho (Conjunto robusto com 5 peças)', cat:'cama-mesa-banho', price:'R$ 280', given:false },
+    { name:'Jogo de Lençol Casal/Queen 100% Algodão', cat:'cama-mesa-banho', price:'R$ 250', given:false },
+    { name:'Manta Decorativa de Tricô ou Chenille para Sofá', cat:'cama-mesa-banho', price:'R$ 220', given:false },
+    { name:'Protetor de Colchão Impermeável Matelassê (Casal/Queen)', cat:'cama-mesa-banho', price:'R$ 200', given:false },
+    { name:'Kit de Travesseiros Macios (Par com tecnologia antiácaro)', cat:'cama-mesa-banho', price:'R$ 200', given:false },
+    { name:'Toalha de Mesa Requintada para 6 Lugares', cat:'cama-mesa-banho', price:'R$ 180', given:false },
+    { name:'Jogo Americano de Mesa (Kit completo com 6 lugares e guardanapos)', cat:'cama-mesa-banho', price:'R$ 160', given:false },
+    { name:'Kit de Tapetes Antiderrapantes para Banheiro (Jogo felpudo de 3 peças)', cat:'cama-mesa-banho', price:'R$ 160', given:false },
+    { name:'Kit de Cortina para Box em Tecido Impermeável com Varão', cat:'cama-mesa-banho', price:'R$ 150', given:false }
   ];
 
   const grid = document.getElementById('giftGrid');
@@ -645,41 +656,21 @@
   function render(list){
     grid.innerHTML = '';
     list.forEach((g, i) => {
-      const isCota = g.type === 'cota';
-      const totalUnits = isCota ? g.totalCotas : 1;
-      const given = g.given || 0;
-      const complete = given >= totalUnits;
-      const pct = Math.min(100, Math.round((given / totalUnits) * 100));
-
-      const priceLine = isCota
-        ? `Cota de R$ ${g.cotaPrice}<span class="total-note">Valor total ≈ ${g.totalValue}${totalUnits > 1 ? ' · ' + totalUnits + ' cotas' : ''}</span>`
-        : g.price;
-
-      const progressLabel = isCota
-        ? (complete ? 'Todas as cotas presenteadas' : `${given} de ${totalUnits} cota${totalUnits > 1 ? 's' : ''} presenteada${given === 1 ? '' : 's'}`)
-        : (complete ? 'Presente completo' : 'Ainda não presenteado');
-
-      const btnLabel = complete ? 'Já presenteado' : (isCota ? 'Presentear uma cota' : 'Presentear');
-      const modalPriceText = isCota ? `Cota de R$ ${g.cotaPrice} · Valor total ≈ ${g.totalValue}` : g.price;
-
       const card = document.createElement('div');
       card.className = 'gift-card';
       card.style.transitionDelay = (i % 6) * 0.05 + 's';
       card.innerHTML = `
         <div class="gift-media">
-          <span class="gift-tag${isCota ? ' cota' : ''}">${isCota ? 'Em cotas' : tags[g.cat]}</span>
+          <span class="gift-tag">${tags[g.cat]}</span>
           ${icons[g.cat]}
         </div>
         <div class="gift-body">
           <div class="gift-name">${g.name}</div>
-          <div class="gift-price">${priceLine}</div>
-          <div>
-            <div class="gift-progress"><div style="width:${pct}%"></div></div>
-            <div class="gift-progress-label">${progressLabel}</div>
-          </div>
+          <div class="gift-price">${g.price}</div>
+          <div class="gift-progress-label">${g.given ? 'Presente completo' : 'Ainda não presenteado'}</div>
           <div class="gift-cta">
-            <button class="gift-btn ${complete ? 'given' : ''}" ${complete ? 'disabled' : ''} data-name="${g.name}" data-price="${modalPriceText}">
-              ${btnLabel}
+            <button class="gift-btn ${g.given ? 'given' : ''}" ${g.given ? 'disabled' : ''} data-name="${g.name}" data-price="${g.price}">
+              ${g.given ? 'Já presenteado' : 'Presentear'}
             </button>
           </div>
         </div>`;
@@ -725,6 +716,16 @@
   const overlay = document.getElementById('modalOverlay');
   const modalTitle = document.getElementById('modalTitle');
   const modalPrice = document.getElementById('modalPrice');
+  const modalQr = document.getElementById('modalQr');
+  const pixKeyText = document.getElementById('pixKeyText');
+  const pixCopyBtn = document.getElementById('pixCopyBtn');
+
+  // Chave Pix do casal — troque pela chave real antes de publicar
+  const PIX_KEY = 'beatriz.lucas.casamento@pix.com';
+
+  // Gera o QR code da chave Pix uma única vez (é sempre o mesmo texto)
+  modalQr.src = './qrcode.png'
+  pixKeyText.textContent = PIX_KEY;
 
   function attachGiftButtons(){
     document.querySelectorAll('.gift-btn:not(.given)').forEach(btn => {
@@ -738,11 +739,58 @@
 
   document.getElementById('modalClose').addEventListener('click', () => overlay.classList.remove('open'));
   overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('open'); });
-  document.getElementById('modalSubmit').addEventListener('click', () => {
-    overlay.classList.remove('open');
-    document.getElementById('modalName').value = '';
-    document.getElementById('modalMsg').value = '';
-  });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') overlay.classList.remove('open'); });
+
+  async function copyPixKey(){
+    let copied = false;
+
+    // 1ª tentativa: Clipboard API (moderna, pode exigir permissão/HTTPS)
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      try{
+        await navigator.clipboard.writeText(PIX_KEY);
+        copied = true;
+      }catch(err){ /* segue para o próximo método */ }
+    }
+
+    // 2ª tentativa: execCommand via textarea temporário (funciona na maioria dos contextos legados)
+    if(!copied){
+      try{
+        const tmp = document.createElement('textarea');
+        tmp.value = PIX_KEY;
+        tmp.style.position = 'fixed';
+        tmp.style.top = '0';
+        tmp.style.left = '0';
+        tmp.style.opacity = '0';
+        document.body.appendChild(tmp);
+        tmp.focus();
+        tmp.select();
+        tmp.setSelectionRange(0, PIX_KEY.length);
+        copied = document.execCommand('copy');
+        document.body.removeChild(tmp);
+      }catch(err){ /* segue para o fallback final */ }
+    }
+
+    if(copied){
+      pixCopyBtn.textContent = 'Copiado!';
+      pixCopyBtn.classList.add('copied');
+    } else {
+      // 3ª tentativa: seleciona o texto da chave para o usuário copiar manualmente (Ctrl+C / Cmd+C)
+      const range = document.createRange();
+      range.selectNodeContents(pixKeyText);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      pixCopyBtn.textContent = 'Selecionado — use Ctrl+C';
+    }
+
+    clearTimeout(copyPixKey._t);
+    copyPixKey._t = setTimeout(() => {
+      pixCopyBtn.textContent = 'Copiar';
+      pixCopyBtn.classList.remove('copied');
+    }, 2200);
+  }
+
+  pixCopyBtn.addEventListener('click', copyPixKey);
 </script>
 
 </body>
