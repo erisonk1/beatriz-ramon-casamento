@@ -426,7 +426,6 @@
     display:flex;
     justify-content:center;
     padding:20px;
-    background:var(--white);
     border:1px solid var(--line);
     border-radius:var(--radius);
     margin-bottom:18px;
@@ -572,13 +571,13 @@
     <p class="modal-price" id="modalPrice"></p>
 
     <div class="modal-qr">
-      <img id="modalQr" src="" alt="QR Code Pix">
+      <img id="modalQr" src="./qrcode.png" alt="QR Code Pix">
     </div>
 
     <div class="modal-field">
       <label>Chave Pix</label>
       <div class="pix-key-box">
-        <span id="pixKeyText">beatriz.lucas.casamento@pix.com</span>
+        <span id="pixKeyText">lucasramon.bevilaqua@gmail.com</span>
         <button class="pix-copy-btn" id="pixCopyBtn">Copiar</button>
       </div>
     </div>
@@ -752,11 +751,11 @@
   const pixCopyBtn = document.getElementById('pixCopyBtn');
 
   // Chave Pix do casal — troque pela chave real antes de publicar
-  const PIX_KEY = 'beatriz.lucas.casamento@pix.com';
+  const PIX_KEY = 'lucasramon.bevilaqua@gmail.com';
 
   // Gera o QR code da chave Pix uma única vez (é sempre o mesmo texto).
   // Se preferir usar uma imagem própria, troque esta linha por: modalQr.src = './qrcode.png';
-  modalQr.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=8&data=' + encodeURIComponent(PIX_KEY);
+  modalQr.src = './qrcode.png';
   pixKeyText.textContent = PIX_KEY;
 
   function attachGiftButtons(){
