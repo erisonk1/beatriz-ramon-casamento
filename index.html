@@ -105,11 +105,14 @@
     overflow:hidden;
     gap:30px;
   }
-
+  .rbimg{
+    object-fit:cover;
+    width:100%;
+  }
   .rings{
     position:relative;
-    width:180px;
-    height:110px;
+    width:250px;
+    height:190px;
     margin-bottom:36px;
   }
   .rings svg{width:100%;height:100%;}
@@ -292,6 +295,13 @@
     padding:4px 10px;
     border-radius:999px;
     color:var(--ink-soft);
+  }
+
+  .gift-tag.cota{
+    left:auto;
+    right:12px;
+    background:var(--sage-deep);
+    color:var(--linen);
   }
 
   .gift-body{
@@ -503,10 +513,7 @@
 
 <section class="hero">
   <div class="rings" aria-hidden="true">
-    <svg viewBox="0 0 180 110" class="ring-anim" fill="none" stroke="#C6A874" stroke-width="1.4">
-      <circle cx="70" cy="60" r="38"/>
-      <circle cx="112" cy="60" r="38"/>
-    </svg>
+    <img class="rbimg" src="./rb.png" alt="">
   </div>
   <p class="eyebrow">Chá de Panela </p>
   <h1>Beatriz<span class="amp">&amp;</span>Lucas</h1>
@@ -526,7 +533,7 @@
 
 <section id="historia" class="intro reveal">
   <h2>Um novo capítulo</h2>
-  <p>Depois de nove anos de história, decidimos dar o próximo passo. Se quiserem nos presentear, preparamos esta lista com carinho — cada contribuição, grande ou pequena, nos ajuda a montar a nossa primeira casa juntos.</p>
+  <p>Depois de nove anos de história, decidimos dar o próximo passo. Se quiserem nos presentear, preparamos esta lista com carinho — cada contribuição, grande ou pequena, nos ajuda a montar a nossa primeira casa juntos. Itens de maior valor podem ser presenteados em cotas, junto com outros convidados.</p>
 </section>
 
 <section id="presentes" class="gifts-section">
@@ -565,7 +572,7 @@
     <p class="modal-price" id="modalPrice"></p>
 
     <div class="modal-qr">
-      <img id="modalQr" src="./qrcode.png" alt="QR Code Pix">
+      <img id="modalQr" src="" alt="QR Code Pix">
     </div>
 
     <div class="modal-field">
@@ -593,62 +600,64 @@
     'cama-mesa-banho': 'Cama, Mesa e Banho'
   };
 
+  // type "cota": item vendido em cotas de valor fixo, várias pessoas podem contribuir
+  // type "unico": item com preço único, presenteado por uma pessoa só
   const gifts = [
     // ===== Eletrônicos e Eletrodomésticos =====
-    { name:'Lava e Seca 11kg', cat:'eletronicos', price:'R$ 4.000', given:false },
-    { name:'Geladeira Duplex Frost Free (380L a 400L)', cat:'eletronicos', price:'R$ 3.000', given:false },
-    { name:'Smart TV 4K 50 Polegadas', cat:'eletronicos', price:'R$ 2.400', given:false },
-    { name:'Cervejeira Residencial Frost Free (82L a 100L)', cat:'eletronicos', price:'R$ 2.000', given:false },
-    { name:'Robô Aspirador com Mapeamento', cat:'eletronicos', price:'R$ 1.600', given:false },
-    { name:'Forno Elétrico de Bancada (44L a 60L)', cat:'eletronicos', price:'R$ 750', given:false },
-    { name:'Micro-ondas 30L a 34L em Inox', cat:'eletronicos', price:'R$ 600', given:false },
-    { name:'Purificador de Água Refrigerado', cat:'eletronicos', price:'R$ 550', given:false },
-    { name:'Máquina de Fazer Pão Automática (Panificadora)', cat:'eletronicos', price:'R$ 550', given:false },
-    { name:'Smart Speaker (Amazon Alexa - Echo Dot 5ª Geração)', cat:'eletronicos', price:'R$ 480', given:false },
-    { name:'Batedeira Planetária', cat:'eletronicos', price:'R$ 450', given:false },
-    { name:'Air Fryer (Fritadeira Sem Óleo 4L a 5L)', cat:'eletronicos', price:'R$ 420', given:false },
-    { name:'Panela de Pressão Elétrica (4L a 5L)', cat:'eletronicos', price:'R$ 380', given:false },
-    { name:'Multicooking / Panela Multifuncional Elétrica', cat:'eletronicos', price:'R$ 380', given:false },
-    { name:'Caixa de Som Bluetooth Portátil (Resistente à Água)', cat:'eletronicos', price:'R$ 350', given:false },
-    { name:'Processador de Alimentos de Bancada', cat:'eletronicos', price:'R$ 320', given:false },
-    { name:'Espremedor / Extrator de Frutas Profissional (Bivolt)', cat:'eletronicos', price:'R$ 320', given:false },
-    { name:'Multiprocessador 4 em 1', cat:'eletronicos', price:'R$ 290', given:false },
-    { name:'Panela Wok Elétrica / Grill Multiuso', cat:'eletronicos', price:'R$ 280', given:false },
-    { name:'Liquidificador de Alta Potência (Copo de Vidro)', cat:'eletronicos', price:'R$ 280', given:false },
-    { name:'Aspirador de Pó Vertical 2 em 1', cat:'eletronicos', price:'R$ 250', given:false },
-    { name:'Cafeteira Elétrica Programável', cat:'eletronicos', price:'R$ 220', given:false },
-    { name:'Ventilador de Mesa/Coluna (Oscilante)', cat:'eletronicos', price:'R$ 220', given:false },
-    { name:'Mixer de Mão 3 em 1 com Acessórios', cat:'eletronicos', price:'R$ 220', given:false },
-    { name:'Sanduicheira e Grill Duplo Antiaderente', cat:'eletronicos', price:'R$ 200', given:false },
-    { name:'Torradeira de Pão em Inox (2 Fatias largas)', cat:'eletronicos', price:'R$ 200', given:false },
-    { name:'Umidificador de Ar Ultrassônico Digital', cat:'eletronicos', price:'R$ 180', given:false },
-    { name:'Ferro de Passar a Vapor com Base Cerâmica', cat:'eletronicos', price:'R$ 160', given:false },
-    { name:'Espremedor de Frutas Elétrico em Inox', cat:'eletronicos', price:'R$ 160', given:false },
-    { name:'Chaleira Elétrica Inox com Indicador de Nível', cat:'eletronicos', price:'R$ 150', given:false },
+    { name:'Lava e Seca 11kg', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:8, totalValue:'R$ 4.000', given:0 },
+    { name:'Geladeira Duplex Frost Free (380L a 400L)', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:6, totalValue:'R$ 3.000', given:0 },
+    { name:'Smart TV 4K 50 Polegadas', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:5, totalValue:'R$ 2.400', given:0 },
+    { name:'Cervejeira Residencial Frost Free (82L a 100L)', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:4, totalValue:'R$ 2.000', given:0 },
+    { name:'Robô Aspirador com Mapeamento', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:3, totalValue:'R$ 1.600', given:0 },
+    { name:'Forno Elétrico de Bancada (44L a 60L)', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:1, totalValue:'R$ 750', given:0 },
+    { name:'Micro-ondas 30L a 34L em Inox', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:1, totalValue:'R$ 600', given:0 },
+    { name:'Purificador de Água Refrigerado', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:1, totalValue:'R$ 550', given:0 },
+    { name:'Máquina de Fazer Pão Automática (Panificadora)', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:1, totalValue:'R$ 550', given:0 },
+    { name:'Smart Speaker (Amazon Alexa - Echo Dot 5ª Geração)', cat:'eletronicos', type:'unico', price:'R$ 480', given:false },
+    { name:'Batedeira Planetária', cat:'eletronicos', type:'unico', price:'R$ 450', given:false },
+    { name:'Air Fryer (Fritadeira Sem Óleo 4L a 5L)', cat:'eletronicos', type:'unico', price:'R$ 420', given:false },
+    { name:'Panela de Pressão Elétrica (4L a 5L)', cat:'eletronicos', type:'unico', price:'R$ 380', given:false },
+    { name:'Multicooking / Panela Multifuncional Elétrica', cat:'eletronicos', type:'unico', price:'R$ 380', given:false },
+    { name:'Caixa de Som Bluetooth Portátil (Resistente à Água)', cat:'eletronicos', type:'unico', price:'R$ 350', given:false },
+    { name:'Processador de Alimentos de Bancada', cat:'eletronicos', type:'unico', price:'R$ 320', given:false },
+    { name:'Espremedor / Extrator de Frutas Profissional (Bivolt)', cat:'eletronicos', type:'unico', price:'R$ 320', given:false },
+    { name:'Multiprocessador 4 em 1', cat:'eletronicos', type:'unico', price:'R$ 290', given:false },
+    { name:'Panela Wok Elétrica / Grill Multiuso', cat:'eletronicos', type:'unico', price:'R$ 280', given:false },
+    { name:'Liquidificador de Alta Potência (Copo de Vidro)', cat:'eletronicos', type:'unico', price:'R$ 280', given:false },
+    { name:'Aspirador de Pó Vertical 2 em 1', cat:'eletronicos', type:'unico', price:'R$ 250', given:false },
+    { name:'Cafeteira Elétrica Programável', cat:'eletronicos', type:'unico', price:'R$ 220', given:false },
+    { name:'Ventilador de Mesa/Coluna (Oscilante)', cat:'eletronicos', type:'unico', price:'R$ 220', given:false },
+    { name:'Mixer de Mão 3 em 1 com Acessórios', cat:'eletronicos', type:'unico', price:'R$ 220', given:false },
+    { name:'Sanduicheira e Grill Duplo Antiaderente', cat:'eletronicos', type:'unico', price:'R$ 200', given:false },
+    { name:'Torradeira de Pão em Inox (2 Fatias largas)', cat:'eletronicos', type:'unico', price:'R$ 200', given:false },
+    { name:'Umidificador de Ar Ultrassônico Digital', cat:'eletronicos', type:'unico', price:'R$ 180', given:false },
+    { name:'Ferro de Passar a Vapor com Base Cerâmica', cat:'eletronicos', type:'unico', price:'R$ 160', given:false },
+    { name:'Espremedor de Frutas Elétrico em Inox', cat:'eletronicos', type:'unico', price:'R$ 160', given:false },
+    { name:'Chaleira Elétrica Inox com Indicador de Nível', cat:'eletronicos', type:'unico', price:'R$ 150', given:false },
 
     // ===== Kits de Utensílios para Cozinha =====
-    { name:'Kit de Panelas em Aço Inox (Jogo Completo)', cat:'kits-cozinha', price:'R$ 850', given:false },
-    { name:'Kit de Panelas Antiaderentes (Conjunto com 5 a 7 peças)', cat:'kits-cozinha', price:'R$ 380', given:false },
-    { name:'Kit de Pratos e Aparelho de Jantar (Porcelana, 30 peças)', cat:'kits-cozinha', price:'R$ 350', given:false },
-    { name:'Kit de Talheres em Inox com Suporte/Maleta (42 peças)', cat:'kits-cozinha', price:'R$ 280', given:false },
-    { name:'Kit de Facas Profissionais com Cepo de Madeira', cat:'kits-cozinha', price:'R$ 250', given:false },
-    { name:'Kit de Taças para Vinho e Espumante (Jogo grande com 12 peças)', cat:'kits-cozinha', price:'R$ 250', given:false },
-    { name:'Kit de Potes Herméticos para Mantimentos (Vidro resistente, kit com 5)', cat:'kits-cozinha', price:'R$ 220', given:false },
-    { name:'Kit de Copos e Jarra de Cristal/Vidro para Água e Suco (13 peças)', cat:'kits-cozinha', price:'R$ 200', given:false },
-    { name:'Kit de Assadeiras e Refratários de Vidro Temperado (Jogo com 4 peças)', cat:'kits-cozinha', price:'R$ 200', given:false },
-    { name:'Kit de Utensílios de Silicone Premium com Suporte em Inox', cat:'kits-cozinha', price:'R$ 180', given:false },
+    { name:'Kit de Panelas em Aço Inox (Jogo Completo)', cat:'kits-cozinha', type:'cota', cotaPrice:500, totalCotas:1, totalValue:'R$ 850', given:0 },
+    { name:'Kit de Panelas Antiaderentes (Conjunto com 5 a 7 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 380', given:false },
+    { name:'Kit de Pratos e Aparelho de Jantar (Porcelana, 30 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 350', given:false },
+    { name:'Kit de Talheres em Inox com Suporte/Maleta (42 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 280', given:false },
+    { name:'Kit de Facas Profissionais com Cepo de Madeira', cat:'kits-cozinha', type:'unico', price:'R$ 250', given:false },
+    { name:'Kit de Taças para Vinho e Espumante (Jogo grande com 12 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 250', given:false },
+    { name:'Kit de Potes Herméticos para Mantimentos (Vidro resistente, kit com 5)', cat:'kits-cozinha', type:'unico', price:'R$ 220', given:false },
+    { name:'Kit de Copos e Jarra de Cristal/Vidro para Água e Suco (13 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 200', given:false },
+    { name:'Kit de Assadeiras e Refratários de Vidro Temperado (Jogo com 4 peças)', cat:'kits-cozinha', type:'unico', price:'R$ 200', given:false },
+    { name:'Kit de Utensílios de Silicone Premium com Suporte em Inox', cat:'kits-cozinha', type:'unico', price:'R$ 180', given:false },
 
     // ===== Cama, Mesa e Banho =====
-    { name:'Edredom Casal ou Queen Matelassê de Toque Macio', cat:'cama-mesa-banho', price:'R$ 350', given:false },
-    { name:'Kit de Toalhas de Banho (Conjunto robusto com 5 peças)', cat:'cama-mesa-banho', price:'R$ 280', given:false },
-    { name:'Jogo de Lençol Casal/Queen 100% Algodão', cat:'cama-mesa-banho', price:'R$ 250', given:false },
-    { name:'Manta Decorativa de Tricô ou Chenille para Sofá', cat:'cama-mesa-banho', price:'R$ 220', given:false },
-    { name:'Protetor de Colchão Impermeável Matelassê (Casal/Queen)', cat:'cama-mesa-banho', price:'R$ 200', given:false },
-    { name:'Kit de Travesseiros Macios (Par com tecnologia antiácaro)', cat:'cama-mesa-banho', price:'R$ 200', given:false },
-    { name:'Toalha de Mesa Requintada para 6 Lugares', cat:'cama-mesa-banho', price:'R$ 180', given:false },
-    { name:'Jogo Americano de Mesa (Kit completo com 6 lugares e guardanapos)', cat:'cama-mesa-banho', price:'R$ 160', given:false },
-    { name:'Kit de Tapetes Antiderrapantes para Banheiro (Jogo felpudo de 3 peças)', cat:'cama-mesa-banho', price:'R$ 160', given:false },
-    { name:'Kit de Cortina para Box em Tecido Impermeável com Varão', cat:'cama-mesa-banho', price:'R$ 150', given:false }
+    { name:'Edredom Casal ou Queen Matelassê de Toque Macio', cat:'cama-mesa-banho', type:'unico', price:'R$ 350', given:false },
+    { name:'Kit de Toalhas de Banho (Conjunto robusto com 5 peças: banho, rosto e piso)', cat:'cama-mesa-banho', type:'unico', price:'R$ 280', given:false },
+    { name:'Jogo de Lençol Casal/Queen 100% Algodão', cat:'cama-mesa-banho', type:'unico', price:'R$ 250', given:false },
+    { name:'Manta Decorativa de Tricô ou Chenille para Sofá', cat:'cama-mesa-banho', type:'unico', price:'R$ 220', given:false },
+    { name:'Protetor de Colchão Impermeável Matelassê (Casal/Queen)', cat:'cama-mesa-banho', type:'unico', price:'R$ 200', given:false },
+    { name:'Kit de Travesseiros Macios (Par com tecnologia antiácaro)', cat:'cama-mesa-banho', type:'unico', price:'R$ 200', given:false },
+    { name:'Toalha de Mesa Requintada para 6 Lugares', cat:'cama-mesa-banho', type:'unico', price:'R$ 180', given:false },
+    { name:'Jogo Americano de Mesa (Kit completo com 6 lugares e guardanapos)', cat:'cama-mesa-banho', type:'unico', price:'R$ 160', given:false },
+    { name:'Kit de Tapetes Antiderrapantes para Banheiro (Jogo felpudo de 3 peças)', cat:'cama-mesa-banho', type:'unico', price:'R$ 160', given:false },
+    { name:'Kit de Cortina para Box em Tecido Impermeável com Varão', cat:'cama-mesa-banho', type:'unico', price:'R$ 150', given:false }
   ];
 
   const grid = document.getElementById('giftGrid');
@@ -656,21 +665,43 @@
   function render(list){
     grid.innerHTML = '';
     list.forEach((g, i) => {
+      const isCota = g.type === 'cota';
+      const totalUnits = isCota ? g.totalCotas : 1;
+      const given = isCota ? (g.given || 0) : (g.given ? 1 : 0);
+      const complete = given >= totalUnits;
+      const pct = Math.min(100, Math.round((given / totalUnits) * 100));
+
+      const priceLine = isCota
+        ? `Cota de R$ ${g.cotaPrice}<span class="total-note">Valor total ≈ ${g.totalValue}${totalUnits > 1 ? ' · ' + totalUnits + ' cotas' : ''}</span>`
+        : g.price;
+
+      const progressLabel = isCota
+        ? (complete ? 'Todas as cotas presenteadas' : `${given} de ${totalUnits} cota${totalUnits > 1 ? 's' : ''} presenteada${given === 1 ? '' : 's'}`)
+        : (complete ? 'Presente completo' : 'Ainda não presenteado');
+
+      const btnLabel = complete ? 'Já presenteado' : (isCota ? 'Presentear uma cota' : 'Presentear');
+      const modalPriceText = isCota
+        ? `Cota de R$ ${g.cotaPrice} · Valor total ≈ ${g.totalValue}`
+        : g.price;
+
       const card = document.createElement('div');
       card.className = 'gift-card';
       card.style.transitionDelay = (i % 6) * 0.05 + 's';
       card.innerHTML = `
         <div class="gift-media">
-          <span class="gift-tag">${tags[g.cat]}</span>
+          <span class="gift-tag${isCota ? ' cota' : ''}">${isCota ? 'Em cotas' : tags[g.cat]}</span>
           ${icons[g.cat]}
         </div>
         <div class="gift-body">
           <div class="gift-name">${g.name}</div>
-          <div class="gift-price">${g.price}</div>
-          <div class="gift-progress-label">${g.given ? 'Presente completo' : 'Ainda não presenteado'}</div>
+          <div class="gift-price">${priceLine}</div>
+          <div>
+            <div class="gift-progress"><div style="width:${pct}%"></div></div>
+            <div class="gift-progress-label">${progressLabel}</div>
+          </div>
           <div class="gift-cta">
-            <button class="gift-btn ${g.given ? 'given' : ''}" ${g.given ? 'disabled' : ''} data-name="${g.name}" data-price="${g.price}">
-              ${g.given ? 'Já presenteado' : 'Presentear'}
+            <button class="gift-btn ${complete ? 'given' : ''}" ${complete ? 'disabled' : ''} data-name="${g.name}" data-price="${modalPriceText}">
+              ${btnLabel}
             </button>
           </div>
         </div>`;
@@ -723,8 +754,9 @@
   // Chave Pix do casal — troque pela chave real antes de publicar
   const PIX_KEY = 'beatriz.lucas.casamento@pix.com';
 
-  // Gera o QR code da chave Pix uma única vez (é sempre o mesmo texto)
-  modalQr.src = './qrcode.png'
+  // Gera o QR code da chave Pix uma única vez (é sempre o mesmo texto).
+  // Se preferir usar uma imagem própria, troque esta linha por: modalQr.src = './qrcode.png';
+  modalQr.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=8&data=' + encodeURIComponent(PIX_KEY);
   pixKeyText.textContent = PIX_KEY;
 
   function attachGiftButtons(){
