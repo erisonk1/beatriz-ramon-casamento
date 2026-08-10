@@ -281,8 +281,14 @@
     align-items:center;
     justify-content:center;
     position:relative;
+    overflow:hidden;
   }
   .gift-media svg{width:46px;height:46px;stroke:var(--sage-deep);opacity:0.75;}
+  .gift-media img.gift-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
 
   .gift-tag{
     position:absolute;
@@ -603,38 +609,44 @@ construir nosso lar, nossa família e uma vida inteira lado a lado. ❤️</p>
     'cama-mesa-banho': 'Cama, Mesa e Banho'
   };
 
+  // Pasta onde ficam as fotos dos produtos (a mesma pasta "Imgs" que você mostrou)
+  const IMG_FOLDER = './Imgs/';
+  // Extensões testadas em ordem, caso o arquivo não seja .png
+  const IMG_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp', 'PNG', 'JPG', 'JPEG'];
+
   // type "cota": item vendido em cotas de valor fixo, várias pessoas podem contribuir
   // type "unico": item com preço único, presenteado por uma pessoa só
+  // img: nome do arquivo (sem extensão) dentro da pasta Imgs
   const gifts = [
     // ===== Eletrônicos e Eletrodomésticos =====
-    { name:'Lava e Seca 11kg', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:8, totalValue:'R$ 4.000', given:0 },
-    { name:'Geladeira Duplex Frost Free (380L a 400L)', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:6, totalValue:'R$ 3.000', given:0 },
-    { name:'Smart TV 4K 50 Polegadas', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:5, totalValue:'R$ 2.400', given:0 },
-    { name:'Cervejeira Residencial Frost Free (82L a 100L)', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:4, totalValue:'R$ 2.000', given:0 },
-    { name:'Robô Aspirador com Mapeamento', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:3, totalValue:'R$ 1.600', given:0 },
-    { name:'Forno Elétrico de Bancada (44L a 60L)', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:1, totalValue:'R$ 750', given:0 },
-    { name:'Micro-ondas 30L a 34L em Inox', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:1, totalValue:'R$ 600', given:0 },
-    { name:'Purificador de Água Refrigerado', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:1, totalValue:'R$ 550', given:0 },
-    { name:'Máquina de Fazer Pão Automática (Panificadora)', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:1, totalValue:'R$ 550', given:0 },
-    { name:'Smart Speaker (Amazon Alexa - Echo Dot 5ª Geração)', cat:'eletronicos', type:'unico', price:'R$ 480', given:false },
-    { name:'Batedeira Planetária', cat:'eletronicos', type:'unico', price:'R$ 450', given:false },
-    { name:'Air Fryer (Fritadeira Sem Óleo 4L a 5L)', cat:'eletronicos', type:'unico', price:'R$ 420', given:false },
-    { name:'Panela de Pressão Elétrica (4L a 5L)', cat:'eletronicos', type:'unico', price:'R$ 380', given:false },
-    { name:'Multicooking / Panela Multifuncional Elétrica', cat:'eletronicos', type:'unico', price:'R$ 380', given:false },
-    { name:'Caixa de Som Bluetooth Portátil (Resistente à Água)', cat:'eletronicos', type:'unico', price:'R$ 350', given:false },
-    { name:'Processador de Alimentos de Bancada', cat:'eletronicos', type:'unico', price:'R$ 320', given:false },
-    { name:'Espremedor / Extrator de Frutas Profissional (Bivolt)', cat:'eletronicos', type:'unico', price:'R$ 320', given:false },
-    { name:'Multiprocessador 4 em 1', cat:'eletronicos', type:'unico', price:'R$ 290', given:false },
-    { name:'Liquidificador de Alta Potência (Copo de Vidro)', cat:'eletronicos', type:'unico', price:'R$ 280', given:false },
-    { name:'Aspirador de Pó Vertical 2 em 1', cat:'eletronicos', type:'unico', price:'R$ 250', given:false },
-    { name:'Cafeteira Elétrica Programável', cat:'eletronicos', type:'unico', price:'R$ 220', given:false },
-    { name:'Ventilador de Mesa/Coluna (Oscilante)', cat:'eletronicos', type:'unico', price:'R$ 220', given:false },
-    { name:'Mixer de Mão 3 em 1 com Acessórios', cat:'eletronicos', type:'unico', price:'R$ 220', given:false },
-    { name:'Sanduicheira e Grill Duplo Antiaderente', cat:'eletronicos', type:'unico', price:'R$ 200', given:false },
-    { name:'Torradeira de Pão em Inox (2 Fatias largas)', cat:'eletronicos', type:'unico', price:'R$ 200', given:false },
-    { name:'Umidificador de Ar Ultrassônico Digital', cat:'eletronicos', type:'unico', price:'R$ 180', given:false },
-    { name:'Ferro de Passar a Vapor com Base Cerâmica', cat:'eletronicos', type:'unico', price:'R$ 160', given:false },
-    { name:'Chaleira Elétrica Inox com Indicador de Nível', cat:'eletronicos', type:'unico', price:'R$ 150', given:false },
+    { name:'Lava e Seca 11kg', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:8, totalValue:'R$ 4.000', given:0, img:'Lava e seca' },
+    { name:'Geladeira Duplex Frost Free (380L a 400L)', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:6, totalValue:'R$ 3.000', given:0, img:'Geladeira' },
+    { name:'Smart TV 4K 50 Polegadas', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:5, totalValue:'R$ 2.400', given:0, img:'Tv' },
+    { name:'Cervejeira Residencial Frost Free (82L a 100L)', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:4, totalValue:'R$ 2.000', given:0, img:'cervejeira' },
+    { name:'Robô Aspirador com Mapeamento', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:3, totalValue:'R$ 1.600', given:0, img:'robô' },
+    { name:'Forno Elétrico de Bancada (44L a 60L)', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:1, totalValue:'R$ 750', given:0, img:'Forno' },
+    { name:'Micro-ondas 30L a 34L em Inox', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:1, totalValue:'R$ 600', given:0, img:'microondas' },
+    { name:'Purificador de Água Refrigerado', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:1, totalValue:'R$ 550', given:0, img:'Plus-frontal-Prata' },
+    { name:'Máquina de Fazer Pão Automática (Panificadora)', cat:'eletronicos', type:'cota', cotaPrice:500, totalCotas:1, totalValue:'R$ 550', given:0, img:'Maquina de fazer pão' },
+    { name:'Smart Speaker (Amazon Alexa - Echo Dot 5ª Geração)', cat:'eletronicos', type:'unico', price:'R$ 480', given:false, img:'echodot' },
+    { name:'Batedeira Planetária', cat:'eletronicos', type:'unico', price:'R$ 450', given:false, img:'batedeira planetaria' },
+    { name:'Air Fryer (Fritadeira Sem Óleo 4L a 5L)', cat:'eletronicos', type:'unico', price:'R$ 420', given:false, img:'air fry' },
+    { name:'Panela de Pressão Elétrica (4L a 5L)', cat:'eletronicos', type:'unico', price:'R$ 380', given:false, img:'panela pressao' },
+    { name:'Multicooking / Panela Multifuncional Elétrica', cat:'eletronicos', type:'unico', price:'R$ 380', given:false, img:'multicooking' },
+    { name:'Caixa de Som Bluetooth Portátil (Resistente à Água)', cat:'eletronicos', type:'unico', price:'R$ 350', given:false, img:'caixa de som' },
+    { name:'Processador de Alimentos de Bancada', cat:'eletronicos', type:'unico', price:'R$ 320', given:false, img:'processador de alimentos' },
+    { name:'Espremedor / Extrator de Frutas Profissional (Bivolt)', cat:'eletronicos', type:'unico', price:'R$ 320', given:false, img:'Espremedor' },
+    { name:'Multiprocessador 4 em 1', cat:'eletronicos', type:'unico', price:'R$ 290', given:false, img:'multiprocessador' },
+    { name:'Liquidificador de Alta Potência (Copo de Vidro)', cat:'eletronicos', type:'unico', price:'R$ 280', given:false, img:'liquidificador' },
+    { name:'Aspirador de Pó Vertical 2 em 1', cat:'eletronicos', type:'unico', price:'R$ 250', given:false, img:'aspirador de po' },
+    { name:'Cafeteira Elétrica Programável', cat:'eletronicos', type:'unico', price:'R$ 220', given:false, img:'cafeteira' },
+    { name:'Ventilador de Mesa/Coluna (Oscilante)', cat:'eletronicos', type:'unico', price:'R$ 220', given:false, img:'ventilador' },
+    { name:'Mixer de Mão 3 em 1 com Acessórios', cat:'eletronicos', type:'unico', price:'R$ 220', given:false, img:'mixer' },
+    { name:'Sanduicheira e Grill Duplo Antiaderente', cat:'eletronicos', type:'unico', price:'R$ 200', given:false, img:'sanduicheira' },
+    { name:'Torradeira de Pão em Inox (2 Fatias largas)', cat:'eletronicos', type:'unico', price:'R$ 200', given:false, img:'torradeira' },
+    { name:'Umidificador de Ar Ultrassônico Digital', cat:'eletronicos', type:'unico', price:'R$ 180', given:false, img:'Umidificador' },
+    { name:'Ferro de Passar a Vapor com Base Cerâmica', cat:'eletronicos', type:'unico', price:'R$ 160', given:false, img:'ferro de passar' },
+    { name:'Chaleira Elétrica Inox com Indicador de Nível', cat:'eletronicos', type:'unico', price:'R$ 150', given:false, img:'chaleira' },
 
     // ===== Kits de Utensílios para Cozinha =====
     { name:'Kit de Panelas em Aço Inox (Jogo Completo)', cat:'kits-cozinha', type:'cota', cotaPrice:500, totalCotas:1, totalValue:'R$ 850', given:0 },
@@ -685,13 +697,17 @@ construir nosso lar, nossa família e uma vida inteira lado a lado. ❤️</p>
         ? `Cota de R$ ${g.cotaPrice} · Valor total ≈ ${g.totalValue}`
         : g.price;
 
+      const mediaContent = g.img
+        ? `<img class="gift-img" data-base="${IMG_FOLDER}${g.img}" data-ext-idx="0" data-icon="${g.cat}" alt="${g.name}">`
+        : icons[g.cat];
+
       const card = document.createElement('div');
       card.className = 'gift-card';
       card.style.transitionDelay = (i % 6) * 0.05 + 's';
       card.innerHTML = `
         <div class="gift-media">
           <span class="gift-tag${isCota ? ' cota' : ''}">${isCota ? 'Em cotas' : tags[g.cat]}</span>
-          ${icons[g.cat]}
+          ${mediaContent}
         </div>
         <div class="gift-body">
           <div class="gift-name">${g.name}</div>
@@ -710,6 +726,27 @@ construir nosso lar, nossa família e uma vida inteira lado a lado. ❤️</p>
     });
     observeCards();
     attachGiftButtons();
+    attachImageFallbacks();
+  }
+
+  // Tenta cada extensão da lista até achar o arquivo certo.
+  // Se nenhuma funcionar, volta para o ícone padrão da categoria.
+  function attachImageFallbacks(){
+    document.querySelectorAll('img.gift-img').forEach(img => {
+      const tryNext = () => {
+        const idx = parseInt(img.dataset.extIdx, 10);
+        if(idx >= IMG_EXTENSIONS.length){
+          const wrap = document.createElement('span');
+          wrap.innerHTML = icons[img.dataset.icon] || '';
+          img.replaceWith(wrap.firstElementChild);
+          return;
+        }
+        img.src = `${img.dataset.base}.${IMG_EXTENSIONS[idx]}`;
+        img.dataset.extIdx = idx + 1;
+      };
+      img.addEventListener('error', tryNext);
+      tryNext();
+    });
   }
 
   render(gifts);
